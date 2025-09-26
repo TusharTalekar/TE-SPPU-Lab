@@ -1,0 +1,7 @@
+Symbol	Address
+N	14
+RESULT	15
+ONE	16
+TERM	17
+AGAIN	4
+TWO	18
