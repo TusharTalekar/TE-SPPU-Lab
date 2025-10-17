@@ -1,23 +1,20 @@
 // Map-reduces operations:Implement Map reduces operation with suitable example using MongoDB.
 
-// Database Connectivity:
-// Write a program to implement Mongo DB database connectivity with any front end language to implement Database navigation operations(add, delete, edit etc.)
-
 
 db.category_stock_summary.deleteMany({});
 
 
-// var mapFunction = function () {
-//     emit(this.category, this.stock);
-// };
-// var reduceFunction = function (key, values) {
-//     return Array.sum(values);
-// };
-// db.products.mapReduce(
-//     mapFunction,
-//     reduceFunction,
-//     { out: "category_stock_summary" }
-// );
+var mapFunction = function () {
+    emit(this.category, this.stock);
+};
+var reduceFunction = function (key, values) {
+    return Array.sum(values);
+};
+db.products.mapReduce(
+    mapFunction,
+    reduceFunction,
+    { out: "category_stock_summary" }
+);
 
 
 

@@ -1,0 +1,5 @@
+Index  Name   MDT  KPDTP  PNTAB  #PP  #KP  SSTP
+  1  M1  MDT:1  KPDTP:1  PNTAB:1  #PP:4  #KP:2  SSTP:0
+     params: [X, Y, A, B]
+  2  M2  MDT:6  KPDTP:3  PNTAB:5  #PP:4  #KP:2  SSTP:0
+     params: [P, Q, U, V]

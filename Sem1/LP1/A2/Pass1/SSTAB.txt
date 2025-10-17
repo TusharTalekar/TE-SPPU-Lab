@@ -1,0 +1,1 @@
+SSTAB pointers (index -> MDT index):
