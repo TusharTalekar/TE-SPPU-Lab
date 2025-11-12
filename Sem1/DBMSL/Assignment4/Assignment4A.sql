@@ -19,7 +19,7 @@ CREATE TABLE Borrower(
 );
 
 CREATE TABLE Fine(
-    Roll_no INT ,
+    Roll_no INT,
     Date DATE,
     Amt INT
 );

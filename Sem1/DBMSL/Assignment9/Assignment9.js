@@ -27,7 +27,7 @@ db.products.insertMany([
 
 db.products.find();
 db.products.find({ category: "Electronics" });
-db.products.find({}, { name: 1, price: 1, _id: 0 });
+db.products.find({}, { name: 1, price: 1, _id: 0 }); // Get specific fields only
 
 db.products.find({ price: { $gt: 10000 } });
 db.products.find({ price: { $lt: 5000 } });
