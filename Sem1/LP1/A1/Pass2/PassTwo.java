@@ -1,7 +1,11 @@
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
-import java.util.regex.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PassTwo {
 
@@ -9,7 +13,6 @@ public class PassTwo {
     // private static final String SYM_FILE = "T1/SYM.txt";
     // private static final String LIT_FILE = "T1/LIT.txt";
     // private static final String OUT_FILE = "T1/machine_code.txt";
-
     private static final String IC_FILE = "T2/IC.txt";
     private static final String SYM_FILE = "T2/SYM.txt";
     private static final String LIT_FILE = "T2/LIT.txt";
@@ -32,16 +35,22 @@ public class PassTwo {
 
             for (String raw : icLines) {
                 String line = raw.trim();
-                if (line.isEmpty()) continue;
+                if (line.isEmpty()) {
+                    continue;
+                }
 
                 Matcher m = paren.matcher(line);
                 List<String> tokens = new ArrayList<>();
-                while (m.find()) tokens.add(m.group(1).trim());
+                while (m.find()) {
+                    tokens.add(m.group(1).trim());
+                }
 
                 Matcher pm = plusPat.matcher(line);
                 int offset = pm.find() ? Integer.parseInt(pm.group(1)) : 0;
 
-                if (tokens.isEmpty()) continue;
+                if (tokens.isEmpty()) {
+                    continue;
+                }
 
                 String first = tokens.get(0);
                 String[] fp = first.split("\\s*,\\s*");
@@ -52,7 +61,9 @@ public class PassTwo {
                     case "AD": // Assembler Directives
                         if ("01".equals(code)) { // START
                             Integer start = findConstant(tokens);
-                            if (start != null) LC = start;
+                            if (start != null) {
+                                LC = start;
+                            }
                         } else if ("03".equals(code)) { // ORIGIN
                             if (tokens.size() >= 2 && tokens.get(1).startsWith("S,")) {
                                 int idx = parseIndex(tokens.get(1).substring(2));
@@ -121,7 +132,10 @@ public class PassTwo {
                         }
 
                         int opNum = 0;
-                        try { opNum = Integer.parseInt(opcode); } catch (NumberFormatException ignored) {}
+                        try {
+                            opNum = Integer.parseInt(opcode);
+                        } catch (NumberFormatException ignored) {
+                        }
                         output.add(String.format("%03d : %02d %d %03d", LC, opNum, reg, addr));
                         LC += 1;
                         break;
@@ -133,7 +147,9 @@ public class PassTwo {
 
             Files.write(Paths.get(OUT_FILE), output, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
             System.out.println("Generated " + OUT_FILE + " (" + output.size() + " lines).");
-            for (int i = 0; i < Math.min(20, output.size()); i++) System.out.println(output.get(i));
+            for (int i = 0; i < Math.min(20, output.size()); i++) {
+                System.out.println(output.get(i));
+            }
 
         } catch (IOException ex) {
             System.err.println("I/O error: " + ex.getMessage());
@@ -145,15 +161,20 @@ public class PassTwo {
         List<Integer> out = new ArrayList<>();
         for (String raw : lines) {
             String line = raw.trim();
-            if (line.isEmpty()) continue;
+            if (line.isEmpty()) {
+                continue;
+            }
             String[] parts = line.split("\\s+");
             String last = parts[parts.length - 1];
             try {
                 out.add(Integer.parseInt(last));
             } catch (NumberFormatException e) {
                 Matcher m = Pattern.compile("(-?\\d+)").matcher(last);
-                if (m.find()) out.add(Integer.parseInt(m.group(1)));
-                else out.add(0);
+                if (m.find()) {
+                    out.add(Integer.parseInt(m.group(1))); 
+                }else {
+                    out.add(0);
+                }
             }
         }
         return out;
@@ -162,9 +183,15 @@ public class PassTwo {
     private static Integer findConstant(List<String> tokens) {
         for (String t : tokens) {
             if (t.startsWith("C,")) {
-                try { return Integer.parseInt(t.substring(2)); } catch (NumberFormatException ignored) {}
+                try {
+                    return Integer.parseInt(t.substring(2));
+                } catch (NumberFormatException ignored) {
+                }
             } else if (t.matches("\\d+")) {
-                try { return Integer.parseInt(t); } catch (NumberFormatException ignored) {}
+                try {
+                    return Integer.parseInt(t);
+                } catch (NumberFormatException ignored) {
+                }
             }
         }
         return null;
@@ -172,9 +199,13 @@ public class PassTwo {
 
     private static int parseIndex(String s) {
         s = s.trim();
-        try { return Integer.parseInt(s); } catch (NumberFormatException e) {
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
             Matcher m = Pattern.compile("(\\d+)").matcher(s);
-            if (m.find()) return Integer.parseInt(m.group(1));
+            if (m.find()) {
+                return Integer.parseInt(m.group(1));
+            }
         }
         return 0;
     }

@@ -51,14 +51,12 @@ class FCFS{
         queue<Process*> temp=readyQ;
         cout<<"Running : "<< temp.front()->name<<"\t"<<temp.front()->remainingTime<<endl;
         cout<<"Read queue : "<<endl;
-        int i=1;
         while(!temp.empty()){
             cout.width(10);
             cout<<"\t"<<temp.front()->name;
             cout.width(5);
             cout<<temp.front()->remainingTime<<endl;
             temp.pop();
-            i++;
         }
         cout<<endl;
     }
@@ -137,7 +135,7 @@ class FCFS{
                 it++;
             }
             
-            if(!readyQ.empty() && !readyQ.front()->remainingTime){
+            if(!readyQ.empty() && readyQ.front()->remainingTime==0){
                 readyQ.front()->turnaroundTime=time-readyQ.front()->arrivalTime;
                 readyQ.front()->calculateWait();
                 readyQ.pop();
